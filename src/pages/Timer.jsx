@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from "react";
-import styles from "@/styles/Timer.module.css"
+import styles from "@/styles/Timer.module.css";
 const PomodoroTimer = () => {
   const [time, setTime] = useState(1500);
+  const [focusTime, setFocusTime] = useState(25);
+  const [breakTime, setBreakTime] = useState(5);
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [isBreak, setIsBreak] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
-
   useEffect(() => {
     if (!isRunning || isPaused) {
+      return;
+    }
+    if (time === 0) {
+      if (!isBreak) {
+        setTime(breakTime * 60);
+        setIsBreak(true);
+      } else {
+        setTime(focusTime * 60);
+        setIsBreak(false);
+      }
       return;
     }
     const id = setInterval(() => {
@@ -18,7 +30,7 @@ const PomodoroTimer = () => {
     return () => {
       clearInterval(id);
     };
-  }, [isRunning, isPaused]);
+  }, [isRunning, isPaused, time, breakTime, focusTime, isBreak]);
 
   const startTimer = () => {
     setIsRunning(true);
@@ -32,12 +44,22 @@ const PomodoroTimer = () => {
   const stopTimer = () => {
     setIsRunning(false);
     setIsPaused(false);
-    setTime(1500);
+    setTime(focusTime * 60);
     clearInterval(intervalId);
   };
 
   const resetTimer = () => {
-    setTime(1500);
+    setTime(focusTime * 60);
+    setIsBreak(false);
+  };
+
+  const addFocusTime = (minutes) => {
+    setFocusTime((prevFocusTime) => prevFocusTime + minutes);
+    setTime((prevTime) => prevTime + minutes * 60);
+  };
+
+  const addBreakTime = (minutes) => {
+    setBreakTime((prevBreakTime) => prevBreakTime + minutes);
   };
 
   const formatTime = (seconds) => {
@@ -45,6 +67,7 @@ const PomodoroTimer = () => {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
+
 
   return (
     <div className={styles.pomodoro_timer}>
@@ -54,10 +77,16 @@ const PomodoroTimer = () => {
         </div>
       </div>
       <div className={styles.timer_controls}>
-        <button onClick={startTimer}>Start</button>
-        <button onClick={pauseTimer}>Pause</button>
+        <button onClick={(isRunning && !isPaused)? pauseTimer : startTimer}> {(isRunning && !isPaused)? "Pause": "Start"} </button>
         <button onClick={stopTimer}>Stop</button>
         <button onClick={resetTimer}>Reset</button>
+        <br />
+        <button onClick={() => addFocusTime(1)}>+1</button>
+        <span>{focusTime}</span>
+        <button onClick={() => addFocusTime(-1)}>-1</button>
+        <button onClick={() => addBreakTime(1)}>+1</button>
+        <span>{breakTime}</span>
+        <button onClick={() => addBreakTime(-1)}>-1</button>
       </div>
     </div>
   );

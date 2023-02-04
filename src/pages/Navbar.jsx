@@ -39,7 +39,7 @@ export default function Navbar() {
                     <div className="block p-2 h-9 w-auto lg:hidden text-white font-bold text-xl">
                       <BsSuitSpadeFill></BsSuitSpadeFill>
                     </div>
-                    <div className="hidden p-2 h-9 w-auto lg:block text-white font-bold text-xl" >
+                    <div className="hidden p-2 h-9 w-auto lg:block text-white font-bold text-xl">
                       <BsSuitSpadeFill></BsSuitSpadeFill>
                     </div>
                   </div>
