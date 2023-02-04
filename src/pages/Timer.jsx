@@ -77,16 +77,23 @@ const PomodoroTimer = () => {
         </div>
       </div>
       <div className={styles.timer_controls}>
+        <div className={styles.main_controls}>
         <button onClick={(isRunning && !isPaused)? pauseTimer : startTimer}> {(isRunning && !isPaused)? "Pause": "Start"} </button>
         <button onClick={stopTimer}>Stop</button>
         <button onClick={resetTimer}>Reset</button>
+        </div>
         <br />
+        <div className={styles.setFocus}>
         <button onClick={() => addFocusTime(1)}>+1</button>
         <span>{focusTime}</span>
         <button onClick={() => addFocusTime(-1)}>-1</button>
+        </div>
+        <br />
+        <div className={styles.setBreak}>
         <button onClick={() => addBreakTime(1)}>+1</button>
         <span>{breakTime}</span>
         <button onClick={() => addBreakTime(-1)}>-1</button>
+        </div>
       </div>
     </div>
   );
