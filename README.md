@@ -18,4 +18,6 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 This is made using Vercel.
 
-Link: href="https://foc-ace.vercel.app/"
+Link: <a href="https://foc-ace.vercel.app/"/>
+
+*Currently under production...*
